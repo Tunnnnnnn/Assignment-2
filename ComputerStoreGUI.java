@@ -20,6 +20,7 @@ public class ComputerStoreGUI extends JFrame
     
     
     private JList<String> contactList;
+    private JList<String> contactList2;
     
     public ComputerStoreGUI()
     {
@@ -46,13 +47,34 @@ public class ComputerStoreGUI extends JFrame
         
         JButton cartButton = new JButton("View shopping cart");
         cartButton.setBounds(180, 130, 150, 30);
-        cartButton.addActionListener(new ActionListener() 
-        {
-            public void actionPerformed(ActionEvent e) 
-            {
-                
+        cartButton.addActionListener(new ActionListener() {
+    public void actionPerformed(ActionEvent e) {
+        ShoppingCart shoppingCart = new ShoppingCart();
+        // Get the items from the shopping cart
+        ArrayList<Object> cartItems = shoppingCart.getItems();
+
+        // Convert the items to strings
+        ArrayList<String> cartItemStrings = new ArrayList<>();
+        for (Object item : cartItems) {
+            if (item instanceof Laptop) {
+                Laptop laptop = (Laptop) item;
+                cartItemStrings.add("Laptop - Model: " + laptop.getModel() + ", Brand: " + laptop.getBrand() + ", Price: " + laptop.getPrice());
+            } else if (item instanceof Tablet) {
+                Tablet tablet = (Tablet) item;
+                cartItemStrings.add("Tablet - Model: " + tablet.getModel() + ", Brand: " + tablet.getBrand() + ", Price: " + tablet.getPrice());
             }
-        });
+            // Add more else if statements for other types of items if needed
+        }
+
+        // Update the JList with the cart items
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        for (String s : cartItemStrings) {
+            listModel.addElement(s);
+        }
+        contactList.setModel(listModel);
+    }
+});
+
         frame.add(cartButton);
         
         
@@ -98,7 +120,7 @@ public class ComputerStoreGUI extends JFrame
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);   
-        
+//        --------------------------------------------------------------------
         contactList = new JList<>();
         JScrollPane scrollPane = new JScrollPane(contactList);
         scrollPane.setBounds(50, 200, 700, 300); // adjust position and size as needed
@@ -134,10 +156,14 @@ public class ComputerStoreGUI extends JFrame
     }
     
    public void openProductsWindow() {
+       
+       
+       
     JFrame productFrame = new JFrame("Product Selection");
     productFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     productFrame.setLayout(null);
 
+    
     JLabel productLabel = new JLabel("Product Page", SwingConstants.CENTER);
     productLabel.setFont(new Font("Serif", Font.BOLD, 35));
     productLabel.setBounds(140, 10, 500, 40);
@@ -146,6 +172,11 @@ public class ComputerStoreGUI extends JFrame
     JButton buttonA = new JButton("Display laptop products");
     buttonA.setBounds(180, 90, 180, 30);
     productFrame.add(buttonA);
+    
+    contactList2 = new JList<>();
+        JScrollPane scrollPane = new JScrollPane(contactList2);
+        scrollPane.setBounds(50, 200, 700, 300); // adjust position and size as needed
+        productFrame.add(scrollPane);
 
     // Create a DefaultListModel to store the product data
     DefaultListModel<String> listModel = new DefaultListModel<>();
@@ -169,7 +200,7 @@ public class ComputerStoreGUI extends JFrame
         for (String s : laptopStrings) {
             listModel.addElement(s);
         }
-        contactList.setModel(listModel);
+        contactList2.setModel(listModel);
     }
 });
 
@@ -198,13 +229,25 @@ public class ComputerStoreGUI extends JFrame
     });
     productFrame.add(buttonD);
 
-    JButton exitButton = new JButton("Exit to main menu");
-    exitButton.setBounds(300, 450, 180, 30);
-    exitButton.addActionListener((ActionEvent e) -> {
-        // Close the product frame and return to the main menu
-        productFrame.dispose();
+//    JButton exitButton = new JButton("Add");
+//    exitButton.setBounds(300, 450, 180, 30);
+//    exitButton.addActionListener((ActionEvent e) -> {
+//        // Close the product frame and return to the main menu
+//        productFrame.dispose();
+//    });
+    JButton AddButton = new JButton("Add");
+    productFrame.add(AddButton);
+    AddButton.setBounds(300, 500, 180, 30);
+        // Create a new ShoppingCart instance
+    ShoppingCart shoppingCart = new ShoppingCart();
+
+    // In the loop where you create buttons for each item
+    AddButton.addActionListener((ActionEvent e) -> {
+        // Add the corresponding item to the shopping cart
+        shoppingCart.addItem(laptop); 
+        System.out.println("Added " + laptop.getModel() + " to the shopping cart.");
     });
-    productFrame.add(exitButton);
+
 
     productFrame.setSize(800, 600);
     productFrame.setLocationRelativeTo(null);
@@ -251,6 +294,8 @@ public class ComputerStoreGUI extends JFrame
         
          
     }
+    
+    
 
     private class ActionListenerImpl implements ActionListener {
 

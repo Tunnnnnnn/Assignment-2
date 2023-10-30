@@ -10,59 +10,20 @@ import java.util.*;
  *
  * @author jamez
  */
+import java.util.ArrayList;
+
 public class ShoppingCart {
-    
-    List<Product> items;
-    
-    public ShoppingCart()
-    {
+    private ArrayList<Object> items;
+
+    public ShoppingCart() {
         items = new ArrayList<>();
     }
-    
-    public void addItem(Product product)
-    {
-        items.add(product);
+
+    public void addItem(Object item) {
+        items.add(item);
     }
-    
-    public List<Product> getItems()
-    {
+
+    public ArrayList<Object> getItems() {
         return items;
     }
-    
-    public double calculateTotalCost()
-    {
-        double totalCost = 0.0;
-        
-        for (Product item : items)
-        {
-            totalCost += item.getPrice();
-        }
-        return totalCost;
-    }
-    
-    public void viewCart()
-    {
-        System.out.println("Shopping Cart");
-        
-        for (Product item : items)
-        {
-            System.out.println(item.getManufacturer() + " " + item.getProduct() + " " + "$" + item.getPrice());
-        }
-        System.out.println("Total: " + calculateTotalCost());
-        System.out.println("\n");
-    }
-    
-    public void checkout()
-    {
-        System.out.println("Checkout list");
-        
-        for (Product item : items)
-        {
-            System.out.println(item.getManufacturer() + " " + item.getProduct() + " " + "$" + item.getPrice());
-        }
-        
-        System.out.println("Total: " + calculateTotalCost());    
-    }
-   
-    
 }
