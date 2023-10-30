@@ -38,33 +38,27 @@ public class ContactDetails {
 
     // Getters and setters
 
-        public String getAddress() 
-        {
+        public String getAddress() {
             return address;
         }
 
-        public String getCity() 
-        {
+        public String getCity() {
             return city;
         }
 
-        public String getPhone() 
-        {
+        public String getPhone() {
             return phone;
         }
 
-        public String getEmail() 
-        {
+        public String getEmail() {
             return email;
         }
 
-        public void setAddress(String address)
-        {
+        public void setAddress(String address) {
             this.address = address;
         }
 
-        public void setCity(String city) 
-        {
+        public void setCity(String city) {
             this.city = city;
         }
 
@@ -107,24 +101,24 @@ public class ContactDetails {
         }
      }
    
-   public static void printContactDetails(ArrayList<ContactDetails> contactDetailsList) {
-    for (ContactDetails contactDetails : contactDetailsList) {
-        System.out.println("Address: " + contactDetails.getAddress());
-        System.out.println("City: " + contactDetails.getCity());
-        System.out.println("Phone: " + contactDetails.getPhone());
-        System.out.println("Email: " + contactDetails.getEmail());
-   }
-}
+//   public static void printContactDetails(ArrayList<ContactDetails> contactDetailsList) {
+//    for (ContactDetails contactDetails : contactDetailsList) {
+//        System.out.println("Address: " + contactDetails.getAddress());
+//        System.out.println("City: " + contactDetails.getCity());
+//        System.out.println("Phone: " + contactDetails.getPhone());
+//        System.out.println("Email: " + contactDetails.getEmail());
+//    }
+//}
 
 
-       public static void main(String[] args) {
-    try {
-        ArrayList<ContactDetails> contactDetailsList = getAllContactDetails();
-        printContactDetails(contactDetailsList);
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-}
+//       public static void main(String[] args) {
+//    try {
+//        ArrayList<ContactDetails> contactDetailsList = getAllContactDetails();
+//        printContactDetails(contactDetailsList);
+//    } catch (SQLException e) {
+//        e.printStackTrace();
+//    }
+//}
 
 
     

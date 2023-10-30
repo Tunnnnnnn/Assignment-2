@@ -17,6 +17,8 @@ import static Assignment1.Menu.shoppingCart;
 public class ComputerStoreGUI extends JFrame
 { 
     
+    
+    
     private JList<String> contactList;
     
     public ComputerStoreGUI()
@@ -131,93 +133,88 @@ public class ComputerStoreGUI extends JFrame
             
     }
     
-    public void openProductsWindow()
-    {
-        JFrame productFrame = new JFrame("Product Selection");
-        productFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        productFrame.setLayout(null);
-        
-        
-        JLabel productLabel = new JLabel("Product Page", SwingConstants.CENTER);
-        productLabel.setFont(new Font("Serif", Font.BOLD, 35));
-        productLabel.setBounds(140, 10, 500, 40);
-        productFrame.add(productLabel);    
-        
-      
-        JButton buttonA = new JButton("Display laptop products");
-        buttonA.setBounds(180, 90, 180, 30);
-        buttonA.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-                openLaptopProduct();
-            }
-        });        
-        productFrame.add(buttonA);
-        
-        
-        JButton buttonB = new JButton("Display PC parts");
-        buttonB.setBounds(180, 130, 180, 30);
-        buttonB.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-                
-            }
-        });         
-        productFrame.add(buttonB);
-        
-        
-        JButton buttonC = new JButton("Display Tablets product");
-        buttonC.setBounds(430, 90, 180, 30);
-        buttonC.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-                
-            }
-        });         
-        productFrame.add(buttonC);
-        
-        
-        JButton buttonD = new JButton("Exit to main menu");
-        buttonD.setBounds(430, 130, 180, 30);
-        buttonD.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-                
-            }
-        });         
-        productFrame.add(buttonD);
-        
-        
-        JButton exitButton = new JButton("Exit to main menu");
-        exitButton.setBounds(300, 450, 180, 30);
-        exitButton.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-                productFrame.dispose();
-            }
-        });
-        productFrame.add(exitButton);
-        
-               
-         
-        productFrame.setSize(800, 600);
-        productFrame.setLocationRelativeTo(null);
-        productFrame.setVisible(true);
-           
+   public void openProductsWindow() {
+    JFrame productFrame = new JFrame("Product Selection");
+    productFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    productFrame.setLayout(null);
+
+    JLabel productLabel = new JLabel("Product Page", SwingConstants.CENTER);
+    productLabel.setFont(new Font("Serif", Font.BOLD, 35));
+    productLabel.setBounds(140, 10, 500, 40);
+    productFrame.add(productLabel);
+
+    JButton buttonA = new JButton("Display laptop products");
+    buttonA.setBounds(180, 90, 180, 30);
+    productFrame.add(buttonA);
+
+    // Create a DefaultListModel to store the product data
+    DefaultListModel<String> listModel = new DefaultListModel<>();
+
+   buttonA.addActionListener(new ActionListener() {
+    public void actionPerformed(ActionEvent e) {
+        // Fetch laptop data from database
+        List<Laptop> laptops = Laptop.laptopz();
+
+        // Convert laptop data to strings
+        ArrayList<String> laptopStrings = new ArrayList<>();
+        for (Laptop laptop : laptops) {
+            laptopStrings.add("ID: " + laptop.getId()
+                    + ", Model: " + laptop.getModel()
+                    + ", Brand: " + laptop.getBrand()
+                    + ", Price: " + laptop.getPrice());
+        }
+
+        // Update JList with new data
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        for (String s : laptopStrings) {
+            listModel.addElement(s);
+        }
+        contactList.setModel(listModel);
     }
-    
+});
+
+
+    JButton buttonB = new JButton("Display PC parts");
+    buttonB.setBounds(180, 130, 180, 30);
+    buttonB.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            // Fetch PC parts data from database and update the JList
+            // ...
+        }
+    });
+    productFrame.add(buttonB);
+
+    JButton buttonC = new JButton("Display Tablets product");
+    buttonC.setBounds(430, 90, 180, 30);
+    buttonC.addActionListener(new ActionListenerImpl(listModel));
+    productFrame.add(buttonC);
+
+    JButton buttonD;
+        buttonD = new JButton("Exit to main menu");
+    buttonD.setBounds(430, 130, 180, 30);
+    buttonD.addActionListener((ActionEvent e) -> {
+        // Close the product frame and return to the main menu
+        productFrame.dispose();
+    });
+    productFrame.add(buttonD);
+
+    JButton exitButton = new JButton("Exit to main menu");
+    exitButton.setBounds(300, 450, 180, 30);
+    exitButton.addActionListener((ActionEvent e) -> {
+        // Close the product frame and return to the main menu
+        productFrame.dispose();
+    });
+    productFrame.add(exitButton);
+
+    productFrame.setSize(800, 600);
+    productFrame.setLocationRelativeTo(null);
+    productFrame.setVisible(true);
+}
+ 
     public static void main(String[] args)
     {
-        SwingUtilities.invokeLater(new Runnable(){
-            public void run()
-            {
-                new ComputerStoreGUI();
-            }
+        SwingUtilities.invokeLater(() -> {
+            ComputerStoreGUI computerStoreGUI = new ComputerStoreGUI();
         });
         
     }
@@ -233,18 +230,16 @@ public class ComputerStoreGUI extends JFrame
         LaptopLabel.setBounds(140, 10, 500, 40);
         LaptopFrame.add(LaptopLabel);
         
-        List<Product> laptops = Laptop.laptop();
+        List<Laptop> laptops = Laptop.laptopz();
+
         
         for (int i = 0; i < laptops.size(); i++) 
         {
-            Product laptop = laptops.get(i);
-            JButton button = new JButton(laptop.getProduct() + " by " + laptop.getManufacturer() + " - $" + laptop.getPrice());
-            button.addActionListener(new ActionListener() 
-            {
-                public void actionPerformed(ActionEvent e)
-                {
-                    System.out.println("Added " + laptop.getProduct() + " to the shopping cart.");
-                }
+            Laptop laptop = laptops.get(i);
+
+            JButton button = new JButton(laptop.getModel() + " by " + laptop.getBrand() + " - $" + laptop.getPrice());
+            button.addActionListener((ActionEvent e) -> {
+                System.out.println("Added " + laptop.getModel() + " to the shopping cart.");
             });
             
             LaptopFrame.add(button);
@@ -255,6 +250,36 @@ public class ComputerStoreGUI extends JFrame
         LaptopFrame.setVisible(true);
         
          
+    }
+
+    private class ActionListenerImpl implements ActionListener {
+
+        private final DefaultListModel<String> listModel;
+
+        public ActionListenerImpl(DefaultListModel<String> listModel) {
+            this.listModel = listModel;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // Fetch tablet data from database and update the JList
+            List<Tablet> tablets = Tablets.tablet();
+            
+            // Clear the list model
+            listModel.clear();
+            
+            // Convert tablet data to strings and add them to the list model
+            for (Tablet tablet : tablets) {
+                String tabletString = "ID: " + tablet.getId()
+                        + ", Model: " + tablet.getModel()
+                        + ", Brand: " + tablet.getBrand()
+                        + ", Price: " + tablet.getPrice();
+                listModel.addElement(tabletString);
+            }
+            
+            // Update the JList with the new data
+            contactList.setModel(listModel);
+        }
     }
     
 }

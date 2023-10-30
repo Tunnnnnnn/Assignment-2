@@ -11,28 +11,17 @@ package Assignment1;
  */
 public class Product 
 {
-    private final int id;
+    
     private String product;
     private String manufacturer;
     private double price;
 
-    public Product(int id) 
-    {
-        this.id = id;
-    }
-    
 // Constructor
-    public Product(int id, String product, String manufacturer, double price) 
+    public Product(String product, String manufacturer, double price) 
     {
-        this.id = id;
-        this.product = product;
-        this.manufacturer = manufacturer;
-        this.price = price;
-    }
-    
-    public int getId() 
-    {
-        return id;
+        this.setProduct(product);
+        this.setManufacturer(manufacturer);
+        this.setPrice(price);
     }
     
 // product getter
@@ -69,7 +58,7 @@ public class Product
     @Override
     public String toString()
     {
-        return "ID: " + id + getProduct() + ", " + getManufacturer() + ", $" + getPrice();
+        return getProduct() + ", " + getManufacturer() + ", $" + getPrice();
     }   
 }
 
