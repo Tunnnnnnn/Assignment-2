@@ -62,7 +62,7 @@ public class Laptop {
 
         try {
             // Execute the SQL query to retrieve tablet data from the database
-            String query = "SELECT * FROM Tablet";
+            String query = "SELECT * FROM Laptop";
             java.sql.Statement stmt = conns.createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
